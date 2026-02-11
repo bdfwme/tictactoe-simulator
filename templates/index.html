@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blank's Tic Tac Toe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>BLANK'S <span class="highlight">TIC TAC TOE</span></h1>
+        
+        <div id="menu">
+            <button onclick="startGame('pvc')">Play vs Computer</button>
+            <button onclick="startGame('pvp')">Create 2-Player Room</button>
+            <div style="margin-top: 15px;">
+                <input type="text" id="roomCodeInput" placeholder="Enter Room Code">
+                <button onclick="joinGame()">Join Room</button>
+            </div>
+        </div>
+
+        <div id="game-area" class="hidden">
+            <h2 id="status-msg">Player X's Turn</h2>
+            
+            <button id="replay-btn" class="hidden" onclick="resetGame()">PLAY AGAIN</button>
+
+            <h3 id="room-display"></h3>
+            <div class="board">
+                <div class="cell" onclick="makeMove(0)"></div>
+                <div class="cell" onclick="makeMove(1)"></div>
+                <div class="cell" onclick="makeMove(2)"></div>
+                <div class="cell" onclick="makeMove(3)"></div>
+                <div class="cell" onclick="makeMove(4)"></div>
+                <div class="cell" onclick="makeMove(5)"></div>
+                <div class="cell" onclick="makeMove(6)"></div>
+                <div class="cell" onclick="makeMove(7)"></div>
+                <div class="cell" onclick="makeMove(8)"></div>
+            </div>
+            <button class="reset-btn" onclick="location.reload()">Exit to Menu</button>
+        </div>
+    </div>
+
+    <script>
+        let roomId = null;
+        let myPlayer = 'X'; 
+        let interval = null;
+
+        async function startGame(mode) {
+            const response = await fetch('/new_game', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({mode: mode})
+            });
+            const data = await response.json();
+            roomId = data.room_id;
+            
+            document.getElementById('menu').classList.add('hidden');
+            document.getElementById('game-area').classList.remove('hidden');
+            
+            if(mode === 'pvp') {
+                document.getElementById('room-display').innerText = `Room Code: ${roomId}`;
+            }
+            
+            interval = setInterval(updateBoard, 1000);
+        }
+
+        function joinGame() {
+            roomId = document.getElementById('roomCodeInput').value.toUpperCase();
+            if(!roomId) return alert("Enter a code!");
+            myPlayer = 'O'; 
+            document.getElementById('menu').classList.add('hidden');
+            document.getElementById('game-area').classList.remove('hidden');
+            document.getElementById('room-display').innerText = `Room Code: ${roomId}`;
+            interval = setInterval(updateBoard, 1000);
+        }
+
+        async function makeMove(index) {
+            await fetch('/move', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({room_id: roomId, index: index, player: myPlayer})
+            });
+            updateBoard();
+        }
+
+        async function resetGame() {
+            await fetch('/reset', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({room_id: roomId})
+            });
+            // We don't need to do anything else here! 
+            // The updateBoard() function running every second will see the empty board and update the screen.
+        }
+
+        async function updateBoard() {
+            const response = await fetch(`/status/${roomId}`);
+            if(response.status === 404) return;
+            const game = await response.json();
+            
+            const cells = document.querySelectorAll('.cell');
+            game.board.forEach((val, idx) => {
+                cells[idx].innerText = val;
+                // Reset colors if empty (for replay)
+                if(val === "") {
+                    cells[idx].classList.remove('x-mark', 'o-mark');
+                } else if(val === 'X') {
+                    cells[idx].classList.add('x-mark');
+                } else if(val === 'O') {
+                    cells[idx].classList.add('o-mark');
+                }
+            });
+
+            const statusEl = document.getElementById('status-msg');
+            const replayBtn = document.getElementById('replay-btn');
+
+            if (game.winner) {
+                statusEl.innerText = game.winner === "Draw" ? "It's a Draw!" : `Player ${game.winner} Wins!`;
+                replayBtn.classList.remove('hidden'); // SHOW BUTTON
+            } else {
+                statusEl.innerText = `Turn: Player ${game.turn}`;
+                replayBtn.classList.add('hidden');    // HIDE BUTTON
+            }
+        }
+    </script>
+</body>
+</html>

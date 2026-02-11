@@ -1,0 +1,123 @@
+/* DEEP BLACK THEME */
+body {
+    background-color: #000000; /* Deepest Black */
+    font-family: 'Courier New', monospace;
+    color: #e0e0e0; /* Off-white text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: #000000;
+    padding: 2.5rem;
+    border: 1px solid #333; /* Subtle grey border */
+    border-radius: 0px; /* Sharp corners for modern look */
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05); /* Very faint glow */
+    max-width: 400px;
+    width: 100%;
+}
+
+h1 { 
+    font-size: 2.5rem; 
+    margin-bottom: 25px; 
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.highlight { color: #888; } /* Greyish highlight */
+
+/* BUTTONS: Minimalist Black/White */
+button {
+    background: #000000;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 24px;
+    margin: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* INPUT FIELD */
+input {
+    padding: 10px;
+    background: #000;
+    border: 1px solid #555;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+
+/* THE BOARD */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px; /* Thin gaps */
+    margin: 30px auto;
+    justify-content: center;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: #000000;
+    border: 1px solid #333; /* Greyish White Hue Border */
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 100; /* Thin text */
+}
+
+.cell:hover {
+    background: #111; /* Slightly lighter black on hover */
+}
+
+/* PLAYER COLORS (Monochrome) */
+.x-mark { color: #fff; text-shadow: 0 0 10px #fff; }
+.o-mark { color: #888; text-shadow: 0 0 10px #888; }
+
+/* UTILITY */
+.hidden { display: none !important; }
+
+#status-msg { margin-bottom: 20px; font-size: 1.2rem; }
+
+/* REPLAY BUTTON SPECIAL STYLE */
+#replay-btn {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border: 2px solid #fff;
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+}
+
+#replay-btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.reset-btn {
+    border: 1px solid #333;
+    color: #555;
+    font-size: 0.8rem;
+    margin-top: 20px;
+}
+.reset-btn:hover {
+    border-color: #555;
+    color: #fff;
+}
