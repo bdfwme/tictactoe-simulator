@@ -1,0 +1,87 @@
+body {
+    background-color: #1a1a2e;
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: #16213e;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+h1 { font-size: 3rem; margin-bottom: 20px; }
+.highlight { color: #f9d71c; } /* Bright Yellow */
+
+button {
+    background: #0f3460;
+    color: #fff;
+    border: 2px solid #00f2ff;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00f2ff;
+    color: #000;
+}
+
+.hidden { display: none; }
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: #0f3460;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.cell:hover { background: #1a1a40; }
+
+#replay-btn {
+    background-color: #f9d71c; /* Bright Neon Yellow */
+    color: #000;               /* Black Text */
+    border: 2px solid #fff;    /* White Border */
+    font-weight: bold;         /* Thicker Text */
+    margin-top: 15px;          /* Space above the button */
+    padding: 10px 20px;        /* Make it clickable */
+    cursor: pointer;
+    border-radius: 5px;
+    display: block;            /* Forces it to sit on its own line */
+    margin-left: auto;         /* Center it... */
+    margin-right: auto;        /* ...horizontally */
+}
+
+#replay-btn:hover {
+    background-color: #fff;    /* White on hover */
+    color: #000;
+    box-shadow: 0 0 15px #f9d71c; /* Yellow Glow effect */
+}
+
+/* Ensure the hidden class actually hides it! */
+.hidden {
+    display: none !important;
+}
